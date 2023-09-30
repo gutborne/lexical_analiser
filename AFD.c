@@ -3,105 +3,91 @@
 #include <string.h>
 #include <stdbool.h>
 /**
- * @brief definição dos estados através de uma enum
+ * @brief Definition of the states through @enum
  */
 typedef enum{
-    ESTADO1 = 1, ESTADO2, ESTADO3, ESTADO4, ESTADO5
-}estados_automato;
+    ESTATE1 = 1, ESTATE2, ESTATE3, ESTATE4, ESTATE5
+}estates_automata;
 
-void getNextChar(char* lineString, char* simbolo, int pos_cabeca_fita){
-    *simbolo = *(lineString + pos_cabeca_fita);
+
+void getNextChar(char* lineString, char* simbol, int pos_tape_head){
+    *simbol = *(lineString + pos_tape_head);
 }
 
-estados_automato getState(estados_automato estado){
-    if(estado == ESTADO1 || estado == ESTADO2 || estado == ESTADO3 || estado == ESTADO4){
+estates_automata getState(estates_automata estate){
+    if(estate == ESTATE1 || estate == ESTATE2 || estate == ESTATE3 || estate == ESTATE4){
         return true;
     }else{
         return false;
     }
 }
 int main(){
-    estados_automato estado = ESTADO1;
-    //char* lineString = "fadksjfkljdsf////*faksdjfkasjf******/*/fasdjfkadsjf/*";
-    //char* lineString = "/*mateusvdlkgggl///********\\\\352345245433ter*/////////*********88****///fa,sldkjfklasjdfkljsdkfs*/";
-    char* lineString = "oi/*adjshgjh*/var";
-    char simbolo = ' ';
-    size_t pos_cabeca_fita = 0, tamanho_line_string = strlen(lineString), pos = 0;
-    //printf("tamanho_line_string: %zu\n", tamanho_line_string);
+    estates_automata estate = ESTATE1;
+    char* lineString = "fadksjfkljdsf////*faksdjfkasjf*****/\\*/*/fasdjfkadsjf/*";
+    char simbol = ' ';
+    size_t pos_tape_head = 0, size_line_string = strlen(lineString), pos = 0;
     //str_comment receberá o comentario ao final de toda manipulação
     char* str_comment = (char*)malloc(sizeof(char) * 200);
-    while(getState(estado) && (pos_cabeca_fita <= tamanho_line_string)){
-        switch(estado){
-            case ESTADO1:
-                getNextChar(lineString, &simbolo, pos_cabeca_fita);
-                switch(simbolo){
+    while(getState(estate) && (pos_tape_head <= size_line_string)){
+        switch(estate){
+            case ESTATE1:
+                getNextChar(lineString, &simbol, pos_tape_head);
+                switch(simbol){
                     case '/':
-                        estado = ESTADO2;
-                        str_comment[pos] = simbolo; 
+                        estate = ESTATE2;
+                        str_comment[pos] = simbol; 
                         pos++;
-                        //printf("%c", simbolo);
                         break;                    
                 }
                 break;
-            case ESTADO2:
-                //simbolo -> função
-                getNextChar(lineString, &simbolo, pos_cabeca_fita);
-                switch(simbolo){
+            case ESTATE2:
+                getNextChar(lineString, &simbol, pos_tape_head);
+                switch(simbol){
                     case '*':
-                        estado = ESTADO3;
-                        str_comment[pos] = simbolo;
+                        estate = ESTATE3;
+                        str_comment[pos] = simbol;
                         pos++;
-                        //printf("%c", simbolo);        
                         break;
                 }
                 break;
-            case ESTADO3:
-                getNextChar(lineString, &simbolo, pos_cabeca_fita);
-                switch(simbolo){
+            case ESTATE3:
+                getNextChar(lineString, &simbol, pos_tape_head);
+                switch(simbol){
                     case '*':
-                        estado = ESTADO4;
-                        str_comment[pos] = simbolo;
+                        estate = ESTATE4;
+                        str_comment[pos] = simbol;
                         pos++;
-                        //printf("%c", simbolo);
                         break;
                     default:
-                        //simbolo -> função(avançar na tabela de simbolos)
-                        str_comment[pos] = simbolo;
+                        str_comment[pos] = simbol;
                         pos++;
-                        estado = ESTADO3;    
-                        //printf("%c", simbolo);
+                        estate = ESTATE3;    
                 }   
                 break;
-            case ESTADO4:
-                getNextChar(lineString, &simbolo, pos_cabeca_fita);
-                switch(simbolo){
+            case ESTATE4:
+                getNextChar(lineString, &simbol, pos_tape_head);
+                switch(simbol){
                     case '/':
-                        estado = ESTADO5;
-                        str_comment[pos] = simbolo;
+                        estate = ESTATE5;
+                        str_comment[pos] = simbol;
                         pos++;
-                        //printf("%c", simbolo);
                         break;
                     case '*':
-                        //simbolo -> função(avançar na tabela de simbolos)
-                        estado = ESTADO4;
-                        str_comment[pos] = simbolo;
+                        estate = ESTATE4;
+                        str_comment[pos] = simbol;
                         pos++;
-                        //printf("%c", simbolo);
                         break;    
                     default:
-                        //simbolo -> função 
-                        estado = ESTADO3;
-                        str_comment[pos] = simbolo;
+                        estate = ESTATE3;
+                        str_comment[pos] = simbol;
                         pos++;
-                        //printf("%c", simbolo);
                 }     
                 break;
         }
-        pos_cabeca_fita++;
+        pos_tape_head++;
     }
     
-    //printf("\npos_cabeca_fita: %zu\n", pos_cabeca_fita);
-    if(estado == ESTADO5){
+    if(estate == ESTATE5){
         for(int i = 0; i < pos; i++){
             printf("%c", str_comment[i]);
         }
